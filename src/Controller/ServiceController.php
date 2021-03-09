@@ -19,8 +19,12 @@ class ServiceController extends AbstractController
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
        
-            return $this->render('admin/services/index.html.twig',[
-                'status' => 0,
+            //TODO buscar todos los servicios y enviarlos por el array
+            return $this->render('admin/services/index.html.twig',
+            [
+                "internet"=> null,
+                "telefonia"=> null,
+                "cable" => null
             ]);
       
     }

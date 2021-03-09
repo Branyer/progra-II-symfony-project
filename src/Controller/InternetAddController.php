@@ -30,9 +30,7 @@ class InternetAddController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($internet);
             $em->flush();
-            return $this->render('admin/services/index.html.twig', [
-                'status' => 200,
-            ]);
+            return $this->redirectToRoute('admin_services');
         }
         return $this->render('admin/services/internet.html.twig', [
             'ServicesForm' => $form->createView(),
