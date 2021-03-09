@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Services{% endblock %}
+{% block title %}Create an Internet Service{% endblock %}
 
 {% block body %}
 <style>
@@ -10,9 +10,8 @@
 
 <div class="example-wrapper">
 
-    {% if status == 200 %}
-        <p>El servicio de internet se ha agregado con exito</p>
-    {% endif %}
+    {{ form(ServicesForm) }}
 
 </div>
 {% endblock %}
+
