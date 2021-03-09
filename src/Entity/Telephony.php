@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TelephonyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +28,16 @@ class Telephony
      * @ORM\Column(type="float")
      */
     private $price;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Package::class, mappedBy="Telephony")
+     */
+    private $Packages;
+
+    public function __construct()
+    {
+        $this->Packages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -52,6 +64,36 @@ class Telephony
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Package[]
+     */
+    public function getPackages(): Collection
+    {
+        return $this->Packages;
+    }
+
+    public function addPackage(Package $package): self
+    {
+        if (!$this->Packages->contains($package)) {
+            $this->Packages[] = $package;
+            $package->setTelephony($this);
+        }
+
+        return $this;
+    }
+
+    public function removePackage(Package $package): self
+    {
+        if ($this->Packages->removeElement($package)) {
+            // set the owning side to null (unless already changed)
+            if ($package->getTelephony() === $this) {
+                $package->setTelephony(null);
+            }
+        }
 
         return $this;
     }

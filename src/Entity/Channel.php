@@ -29,6 +29,12 @@ class Channel
      */
     private $Programation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Plan::class, inversedBy="Channels")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $planID;
+
     public function __construct()
     {
         $this->Programation = new ArrayCollection();
@@ -77,6 +83,18 @@ class Channel
                 $programation->setChannelId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlanID(): ?Plan
+    {
+        return $this->planID;
+    }
+
+    public function setPlanID(?Plan $planID): self
+    {
+        $this->planID = $planID;
 
         return $this;
     }

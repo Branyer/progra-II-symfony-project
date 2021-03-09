@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\InternetRepository;
+use App\Repository\CableRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=InternetRepository::class)
+ * @ORM\Entity(repositoryClass=CableRepository::class)
  */
-class Internet
+class Cable
 {
     /**
      * @ORM\Id
@@ -20,23 +20,24 @@ class Internet
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Plan::class, inversedBy="Cables")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $speed;
+    private $Plan;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $price;
+    private $Price;
 
     /**
-     * @ORM\OneToMany(targetEntity=Package::class, mappedBy="Internet")
+     * @ORM\OneToMany(targetEntity=Package::class, mappedBy="Cable")
      */
-    private $Packages;
+    private $packages;
 
     public function __construct()
     {
-        $this->Packages = new ArrayCollection();
+        $this->packages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -44,26 +45,26 @@ class Internet
         return $this->id;
     }
 
-    public function getSpeed(): ?int
+    public function getPlan(): ?Plan
     {
-        return $this->speed;
+        return $this->Plan;
     }
 
-    public function setSpeed(int $speed): self
+    public function setPlan(?Plan $Plan): self
     {
-        $this->speed = $speed;
+        $this->Plan = $Plan;
 
         return $this;
     }
 
     public function getPrice(): ?float
     {
-        return $this->price;
+        return $this->Price;
     }
 
-    public function setPrice(float $price): self
+    public function setPrice(float $Price): self
     {
-        $this->price = $price;
+        $this->Price = $Price;
 
         return $this;
     }
@@ -73,14 +74,14 @@ class Internet
      */
     public function getPackages(): Collection
     {
-        return $this->Packages;
+        return $this->packages;
     }
 
     public function addPackage(Package $package): self
     {
-        if (!$this->Packages->contains($package)) {
-            $this->Packages[] = $package;
-            $package->setInternet($this);
+        if (!$this->packages->contains($package)) {
+            $this->packages[] = $package;
+            $package->setCable($this);
         }
 
         return $this;
@@ -88,10 +89,10 @@ class Internet
 
     public function removePackage(Package $package): self
     {
-        if ($this->Packages->removeElement($package)) {
+        if ($this->packages->removeElement($package)) {
             // set the owning side to null (unless already changed)
-            if ($package->getInternet() === $this) {
-                $package->setInternet(null);
+            if ($package->getCable() === $this) {
+                $package->setCable(null);
             }
         }
 
