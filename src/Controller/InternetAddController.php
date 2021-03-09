@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ServicesAddController extends AbstractController
+class InternetAddController extends AbstractController
 {
     /**
-     * @Route("/admin/services/", name="admin_services")
+     * @Route("/admin/services/internet", name="admin_services_internet")
      */
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
@@ -26,13 +26,15 @@ class ServicesAddController extends AbstractController
             ->add('save', SubmitType::class, ['label' => 'Create Internet Plan'])
             ->getForm();
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            echo "Imprimir";
             $em->persist($internet);
             $em->flush();
-            return $internet;
+            return $this->render('admin/services/index.html.twig', [
+                'status' => 200,
+            ]);
         }
-        return $this->render('admin/services/index.html.twig', [
+        return $this->render('admin/services/internet.html.twig', [
             'ServicesForm' => $form->createView(),
         ]);
     }
