@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Cable;
+use App\Entity\Telephony;
 use App\Repository\CableRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,6 @@ class CableAddController extends AbstractController
     public function adminService(EntityManagerInterface $em, Request $request, CableRepository $cr): Response
     {
         $cable = new Cable();
-
         
 
         $form = $this->createFormBuilder($cable)
@@ -32,16 +32,18 @@ class CableAddController extends AbstractController
             //     'entry_options' => [
             //     'attr' => ['class' => 'email-box'],
             //  ))
-            ->add('plan', CollectionType::class, [
-                'entry_type'   => ChoiceType::class,
-                'entry_options'  => [
-                    'choices'  => [
-                        'Nashville' => 'nashville',
-                        'Paris'     => 'paris',
-                        'Berlin'    => 'berlin',
-                        'London'    => 'london',
-                    ],
-                ],
+            ->add('plan', EntityType::class, [
+                // looks for choices from this entity
+                'class' => Cable::class,
+            
+                // uses the User.username property as the visible option string
+                'choice_label' =>  function ($cable) {
+                    return 'minutos: '.$cable->getMinutes()." -> precio:".$cable->getPrice();
+                }
+            
+                // used to render a select box, check boxes or radios
+                // 'multiple' => true,
+                // 'expanded' => true,
             ])
             ->add('price', TextType::class)
             ->add('save', SubmitType::class, ['label' => 'Create cable Plan'])
