@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Internet;
+use App\Entity\Telephony;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,12 +20,20 @@ class ServiceController extends AbstractController
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
        
-            //TODO buscar todos los servicios y enviarlos por el array
+        
+        $InternetRepository = $this->getDoctrine()->getRepository(Internet::class);
+        $internet = $InternetRepository->findAll();
+        
+        $TelefoniaRepository = $this->getDoctrine()->getRepository(Telephony::class);
+        $telefonia = $TelefoniaRepository->findAll();
+        
+        //TODO buscar servicio de cable
+
             return $this->render('admin/services/index.html.twig',
             [
-                "internet"=> null,
-                "telefonia"=> null,
-                "cable" => null
+                "internet"=>$internet,
+                "telefonia"=> $telefonia,
+                "cable" => []
             ]);
       
     }

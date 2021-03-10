@@ -36,4 +36,50 @@ class InternetAddController extends AbstractController
             'ServicesForm' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/admin/services/internet/delete/{id}", name="delete_internet")
+     */
+    public function deleteInternet($id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Internet::class);
+        $internet = $repository->find($id);
+        
+        if($internet) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($internet);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_services');
+
+    }
+
+    /**
+     * @Route("/admin/services/internet/edit/{id}", name="edit_internet")
+     */
+    public function editInternet($id, EntityManagerInterface $em, Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Internet::class);
+        $internet = $repository->find($id);
+
+        $form = $this->createFormBuilder($internet)
+            ->add('speed', TextType::class)
+            ->add('price', TextType::class)
+            ->add('save', SubmitType::class, ['label' => 'Edit Internet Plan'])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $internet->setSpeed($form->get('speed')->getData());
+            $internet->setPrice($form->get('price')->getData());
+            $em->flush();
+            return $this->redirectToRoute('admin_services');
+        }
+        
+        return $this->render('admin/services/internet.html.twig', [
+            'ServicesForm' => $form->createView(),
+        ]);
+    }
 }
