@@ -23,11 +23,6 @@ class Program
     private $name;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $WeekDay;
-
-    /**
      * @ORM\Column(type="time")
      */
     private $Hour;
@@ -35,7 +30,12 @@ class Program
     /**
      * @ORM\ManyToOne(targetEntity=Channel::class, inversedBy="Programation")
      */
-    private $channelId;
+    private $channel;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $WeekDay = [];
 
     public function getId(): ?int
     {
@@ -53,13 +53,12 @@ class Program
 
         return $this;
     }
-
-    public function getWeekDay(): ?\DateTimeInterface
+    public function getWeekDay(): ?array
     {
         return $this->WeekDay;
     }
 
-    public function setWeekDay(\DateTimeInterface $WeekDay): self
+    public function setWeekDay(array $WeekDay): self
     {
         $this->WeekDay = $WeekDay;
 
@@ -89,4 +88,5 @@ class Program
 
         return $this;
     }
+
 }

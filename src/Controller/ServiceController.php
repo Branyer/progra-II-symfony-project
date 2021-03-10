@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Cable;
 use App\Entity\Internet;
 use App\Entity\Telephony;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,13 +28,16 @@ class ServiceController extends AbstractController
         $TelefoniaRepository = $this->getDoctrine()->getRepository(Telephony::class);
         $telefonia = $TelefoniaRepository->findAll();
         
+        $CableRepository = $this->getDoctrine()->getRepository(Cable::class);
+        $cable = $CableRepository->findAll();
+        
         //TODO buscar servicio de cable
 
             return $this->render('admin/services/index.html.twig',
             [
                 "internet"=>$internet,
                 "telefonia"=> $telefonia,
-                "cable" => []
+                "cable" => $cable,
             ]);
       
     }

@@ -31,9 +31,9 @@ class Channel
 
     /**
      * @ORM\ManyToOne(targetEntity=Plan::class, inversedBy="Channels")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $planID;
+    private $plan;
 
     public function __construct()
     {
@@ -89,12 +89,12 @@ class Channel
 
     public function getPlanID(): ?Plan
     {
-        return $this->planID;
+        return $this->plan;
     }
 
-    public function setPlanID(?Plan $planID): self
+    public function setPlanID(?Plan $plan): self
     {
-        $this->planID = $planID;
+        $this->plan = $plan;
 
         return $this;
     }

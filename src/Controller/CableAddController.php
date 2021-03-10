@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Cable;
+use App\Entity\Plan;
 use App\Entity\Telephony;
 use App\Repository\CableRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,44 +27,90 @@ class CableAddController extends AbstractController
         
 
         $form = $this->createFormBuilder($cable)
-            // ->add('plan', CollectionType::class, array(
-            //     'entry_type' => EmailType::class,
-            //     // these options are passed to each "email" type
-            //     'entry_options' => [
-            //     'attr' => ['class' => 'email-box'],
-            //  ))
-            ->add('plan', EntityType::class, [
+            ->add('Plan', EntityType::class, [
                 // looks for choices from this entity
-                'class' => Cable::class,
+                'class' => Plan::class,
             
                 // uses the User.username property as the visible option string
-                'choice_label' =>  function ($cable) {
-                    return 'minutos: '.$cable->getMinutes()." -> precio:".$cable->getPrice();
-                }
+                'choice_label' =>  function ($Plan) {
+                    return 'Name: '.$Plan->getName();
+                },
+                // 'multiple' => true,
             
                 // used to render a select box, check boxes or radios
-                // 'multiple' => true,
                 // 'expanded' => true,
             ])
-            ->add('price', TextType::class)
+            ->add('Price', TextType::class)
             ->add('save', SubmitType::class, ['label' => 'Create cable Plan'])
             ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // dump($form);
+            // die();
             $em->persist($cable);
             $em->flush();
-            // return $this->redirectToRoute('admin_services');
-            $data = $cr->findAll();
-
-            $response = New JsonResponse();
-            $response->setData([
-                'success'=>true,
-                'data'=>$data,
-            ]);
-            return $response;
+            return $this->redirectToRoute('admin_services');
+            
         }
         return $this->render('admin/services/cable.html.twig', [
+            'ServicesForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/services/cable/delete/{id}", name="delete_cable")
+     */
+    public function deletePlan($id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Cable::class);
+        $cable = $repository->find($id);
+
+        if ($cable) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($cable);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_services');
+    }
+
+    /**
+     * @Route("/admin/services/cable/edit/{id}", name="edit_cable")
+     */
+    public function editCable($id, EntityManagerInterface $em, Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Cable::class);
+        $cable = $repository->find($id);
+
+        $form = $this->createFormBuilder($cable)
+            ->add('Plan', EntityType::class, [
+                // looks for choices from this entity
+                'class' => Plan::class,
+            
+                // uses the User.username property as the visible option string
+                'choice_label' =>  function ($Plan) {
+                    return 'Name: '.$Plan->getName();
+                },
+                // 'multiple' => true,
+            
+                // used to render a select box, check boxes or radios
+                // 'expanded' => true,
+            ])
+            ->add('Price', TextType::class)
+            ->add('save', SubmitType::class, ['label' => 'Create cable Plan'])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $cable->setPlan($form->get('Plan')->getData());
+            $cable->setName($form->get('Name')->getData());
+            $em->flush();
+            return $this->redirectToRoute('admin_services');
+        }
+
+        return $this->render('admin/services/internet.html.twig', [
             'ServicesForm' => $form->createView(),
         ]);
     }

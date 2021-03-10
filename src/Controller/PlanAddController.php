@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Channel;
+use App\Entity\Plan;
 use App\Entity\Program;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,31 +16,30 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProgramAddController extends AbstractController
+class PlanAddController extends AbstractController
 {
     /**
-     * @Route("/admin/services/program", name="admin_services_program")
+     * @Route("/admin/services/plan", name="admin_services_plan")
      */
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
-        $program = new Program();
+        $plan = new Plan();
 
-        $form = $this->createFormBuilder($program, array('allow_extra_fields' => true))
+        $form = $this->createFormBuilder($plan)
             // ->add('name', TextType::class)
-            ->add('name', TextType::class)
-            ->add('hour', TimeType::class)
+            ->add('Name', TextType::class)
+            ->add('Channels', EntityType::class, [
+                // looks for choices from this entity
+                'class' => Channel::class,
 
-            ->add('WeekDay', ChoiceType::class, [
-                'placeholder' => 'Choose an option',
-                'expanded' => true,
+                // uses the User.username property as the visible option string
+                'choice_label' =>  function ($Channel) {
+                    return 'Name: ' . $Channel->getName();
+                },
                 'multiple' => true,
-                'choices' => ['Lunes' => 'Lunes',
-                             'Martes' => 'Martes',
-                             'Miércoles' => 'Miercoles',
-                             'Jueves' => 'Jueves',
-                             'Viernes' => 'Viernes',
-                             'Sábado' => 'Sabado',
-                             'Domingo' => 'Domingo',],
+
+                // used to render a select box, check boxes or radios
+                // 'expanded' => true,
             ])
             ->add('save', SubmitType::class, ['label' => 'Create program'])
             ->getForm();
@@ -47,11 +48,11 @@ class ProgramAddController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // dump($form);
             // die();
-            $em->persist($program);
+            $em->persist($plan);
             $em->flush();
             return $this->redirectToRoute('admin_services');
         }
-        return $this->render('admin/services/program.html.twig', [
+        return $this->render('admin/services/plan.html.twig', [
             'ServicesForm' => $form->createView(),
         ]);
     }

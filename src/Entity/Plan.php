@@ -29,6 +29,11 @@ class Plan
      */
     private $Cables;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Name;
+
     public function __construct()
     {
         $this->Channels = new ArrayCollection();
@@ -96,6 +101,18 @@ class Plan
                 $cable->setPlan(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->Name;
+    }
+
+    public function setName(string $Name): self
+    {
+        $this->Name = $Name;
 
         return $this;
     }
