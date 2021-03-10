@@ -4,13 +4,82 @@
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper { margin: 1em auto; max-width: 90vw; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    h1 {
+        text-align:center
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px
+    }
+    
 </style>
 
 <div class="example-wrapper">
 
-    
-
+    {# <p>{{dump(telefonia)}}</p> #}
+    <h1>Services</h1>
+    <div class="grid">
+        <table border="1">
+            <tr>
+                <th>Internet</th>
+                <th>Price</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+            {% for item in internet %}
+            <tr>
+            <td> 
+                    Internet {{item.speed}} 
+            </td>
+            <td> 
+                {{ item.price }}$ 
+            </td>
+            <td> 
+                <a href="{{ path('delete_internet', {'id': item.id}) }}"> delete </a>
+            </td>
+            <td> 
+                <a href="{{ path('edit_internet', {'id': item.id}) }}"> edit </a>
+            </td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td>
+                    <a href="{{url('admin_services_internet')}}"> Create Internet Plan </a>
+                </td>
+            </tr>
+        </table>
+        <table border="1">
+            <tr>
+                <th>Telephony</th>
+                <th>Price</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+            {% for item in telefonia %}
+            <tr>
+            <td> 
+                    Plan {{item.minutes}} minutes
+            </td>
+            <td> 
+                {{ item.price }}$ 
+            </td>
+            <td> 
+                <a href="{{ path('delete_telephony', {'id': item.id}) }}"> delete </a>
+            </td>
+            <td> 
+                <a href="{{ path('edit_telephony', {'id': item.id}) }}"> edit </a>
+            </td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td>
+                    <a href="{{url('admin_services_telephony')}}"> Create Telephony Plan </a>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 {% endblock %}
