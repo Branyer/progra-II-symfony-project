@@ -20,7 +20,7 @@ class InternetAddController extends AbstractController
     {
         $internet = new Internet();
 
-        $form = $this->createFormBuilder($internet)
+        $form = $this->createFormBuilder($internet, array('allow_extra_fields' =>true))
             ->add('speed', TextType::class)
             ->add('price', TextType::class)
             ->add('save', SubmitType::class, ['label' => 'Create Internet Plan'])
@@ -28,9 +28,12 @@ class InternetAddController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($internet);
-            $em->flush();
-            return $this->redirectToRoute('admin_services');
+
+            dump($form->getExtraData());
+            die();
+            // $em->persist($internet);
+            // $em->flush();
+            // return $this->redirectToRoute('admin_services');
         }
         return $this->render('admin/services/internet.html.twig', [
             'ServicesForm' => $form->createView(),

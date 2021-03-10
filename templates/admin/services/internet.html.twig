@@ -10,8 +10,30 @@
 
 <div class="example-wrapper">
 
-    {{ form(ServicesForm) }}
+    {# {{ form(ServicesForm) }} #}
+{{ form_start(ServicesForm) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(ServicesForm) }}
+    </div>
 
+    <div class="row">
+        <div class="col">
+            {{ form_row(ServicesForm.speed) }}
+        </div>
+        <div class="col" id="some-custom-id">
+            {{ form_row(ServicesForm.price) }}
+        </div>
+        <label><input type="checkbox" name="form[domigo]" value="domingo"> domingo</label><br>
+        <label><input type="checkbox" name="form[lunes]" value="lunes"> lunes</label><br>
+        <label><input type="checkbox" name="form[martes]" value="martes"> martes</label><br>
+        <label><input type="checkbox" name="form[miercoles]" value="miercoles">miercoles</label><br>
+        <label><input type="checkbox" name="form[jueves]" value="jueves">jueves<br>
+        <label><input type="checkbox" name="form[viernes]" value="viernes"> viernes</label><br>
+        <label><input type="checkbox" name="form[sabado]" value="sabado"> sabado</label><br>
+
+        
+    </div>
+{{ form_end(ServicesForm) }}
 </div>
 {% endblock %}
 
