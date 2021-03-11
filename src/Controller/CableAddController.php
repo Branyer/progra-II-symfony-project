@@ -58,6 +58,7 @@ class CableAddController extends AbstractController
         }
         return $this->render('admin/services/cable.html.twig', [
             'ServicesForm' => $form->createView(),
+            'name'=>'Create an Cable Service',
         ]);
     }
 
@@ -120,6 +121,7 @@ class CableAddController extends AbstractController
 
         return $this->render('admin/services/internet.html.twig', [
             'ServicesForm' => $form->createView(),
+            'name'=>'Edit an Cable Service',
         ]);
     }
 }

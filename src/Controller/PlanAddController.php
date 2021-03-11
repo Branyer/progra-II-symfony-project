@@ -57,6 +57,7 @@ class PlanAddController extends AbstractController
         }
         return $this->render('admin/services/plan.html.twig', [
             'ServicesForm' => $form->createView(),
+            'name' =>'Create an TV Plan'
         ]);
     }
 }

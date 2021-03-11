@@ -37,6 +37,7 @@ class InternetAddController extends AbstractController
         }
         return $this->render('admin/services/internet.html.twig', [
             'ServicesForm' => $form->createView(),
+            'name'=>'Edit Internet',
         ]);
     }
 
@@ -89,6 +90,7 @@ class InternetAddController extends AbstractController
         
         return $this->render('admin/services/internet.html.twig', [
             'ServicesForm' => $form->createView(),
+            'name'=>'Edit Internet',
         ]);
     }
 }

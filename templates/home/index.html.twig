@@ -1,32 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hello HomeController!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 890vw; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    h1 {
-        text-align:center;
-    }
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items:center;
-        justify-content:center
-    }
-</style>
+	<link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
 
-<div class="example-wrapper">
-    <div class="container">
-        <h1>Hello {{ app.user.email }}!!!</h1>
-        {% if is_granted('ROLE_ADMIN') %}
-            <p>Welcome Admin</p>
-            <a href="{{url('admin_services')}}">Admin Panel</a>
-        {% else %}
-            <p>Welcome User</p>
-        {% endif %}
-        <a href="{{url('app_logout')}}">Logout</a>
-    </div>
-</div>
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 890vw;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+		h1 {
+			text-align: center;
+			color: #dadada;
+			text-transform: none;
+		}
+		p,
+		a {
+
+			color: #28aa9e;
+		}
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: auto;
+		}
+		body {
+			background: #373B44; /* fallback for old browsers */
+			background: -webkit-linear-gradient(to right, #4286f4, #373B44); /* Chrome 10-25, Safari 5.1-6 */
+			background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+		}
+	</style>
+
+	<div class="example-wrapper">
+		<div class="container">
+			<h1>Hello
+				{{ app.user.email }}!!!</h1>
+			{% if is_granted('ROLE_ADMIN') %}
+				<p>Welcome Admin</p>
+				<a href="{{url('admin_services')}}">Admin Panel</a>
+			{% else %}
+				<p>Welcome User</p>
+			{% endif %}
+			<a href="{{url('app_logout')}}">Logout</a>
+		</div>
+	</div>
 {% endblock %}

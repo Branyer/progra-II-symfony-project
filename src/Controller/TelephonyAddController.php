@@ -36,6 +36,7 @@ class TelephonyAddController extends AbstractController
         }
         return $this->render('admin/services/telephony.html.twig', [
             'ServicesForm' => $form->createView(),
+            'name'=>'Create an Telephony Service',
         ]);
     }
 
@@ -87,6 +88,7 @@ class TelephonyAddController extends AbstractController
         
         return $this->render('admin/services/telephony.html.twig', [
             'ServicesForm' => $form->createView(),
+            'name'=>'Edit an Telephony Service',
         ]);
     }
 }

@@ -69,7 +69,7 @@ class PackageAddController extends AbstractController
     }
 
     /**
-     * @Route("/admin/services/package/delete/{id}", name="delete_internet")
+     * @Route("/admin/services/package/delete/{id}", name="delete_package")
      */
     public function deleteInternet($id)
     {
@@ -90,7 +90,7 @@ class PackageAddController extends AbstractController
     }
 
     /**
-     * @Route("/admin/services/package/edit/{id}", name="edit_internet")
+     * @Route("/admin/services/package/edit/{id}", name="edit_package")
      */
     public function editInternet($id, EntityManagerInterface $em, Request $request)
     {
