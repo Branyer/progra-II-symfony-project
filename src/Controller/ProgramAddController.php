@@ -36,13 +36,13 @@ class ProgramAddController extends AbstractController
                 'placeholder' => 'Choose an option',
                 'expanded' => true,
                 'multiple' => true,
-                'choices' => ['Lunes' => 'Lunes',
-                             'Martes' => 'Martes',
-                             'Miércoles' => 'Miercoles',
-                             'Jueves' => 'Jueves',
-                             'Viernes' => 'Viernes',
-                             'Sábado' => 'Sabado',
-                             'Domingo' => 'Domingo',],
+                'choices' => ['Lunes' => 'Lun',
+                             'Martes' => 'Mar',
+                             'Miércoles' => 'Mie',
+                             'Jueves' => 'Jue',
+                             'Viernes' => 'Vie',
+                             'Sábado' => 'Sab',
+                             'Domingo' => 'Dom',],
             ])
             ->add('save', SubmitType::class, ['label' => 'Create program'])
             ->getForm();

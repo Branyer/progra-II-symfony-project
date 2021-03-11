@@ -4,183 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	<style>
-		body {
-			background: #ad5389;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #3c1053, #ad5389);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #3c1053, #ad5389); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	<link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
 
-		}
-		section {
-			margin: 10px;
-		}
-
-		h1 {
-			font-size: 30px;
-			color: #fff;
-			text-transform: uppercase;
-			font-weight: 300;
-			text-align: center;
-			margin-bottom: 15px;
-		}
-		table {
-			width: 100%;
-			table-layout: fixed;
-		}
-		.tbl-header {
-			background-color: rgba(255, 255, 255, 0.3);
-		}
-		.tbl-content {
-			overflow-x: auto;
-			margin-top: 0;
-			border: 1px solid rgba(255, 255, 255, 0.3);
-		}
-		.tbl-buttonPanel {
-			display: grid;
-			grid-template-columns: auto auto;
-            height: 100%;
-		}
-
-		.tbl-buttonPanel-button {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 75%;
-			max-height: 35.5px;
-			background-color: rgba(255, 255, 255, 0.16);
-			text-align: center;
-			border-radius: 10px;
-			border: 1px solid rgba(255, 255, 255, 0.3);
-			margin: 5px;
-		}
-		th {
-			padding: 20px 15px;
-			text-align: left;
-			font-weight: 500;
-			font-size: 12px;
-			color: #fff;
-			text-transform: uppercase;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-		}
-		td {
-			padding: 0 15px;
-			height: 45px;
-			text-align: left;
-			vertical-align: middle;
-			font-weight: 300;
-			font-size: 12px;
-			color: #fff;
-			border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-		}
-
-		form {
-			.form-group {
-				padding-bottom: 15px;
-			}
-
-			input,
-			textarea,
-			select {
-				width: 235px;
-				background-color: #f6f6f6;
-				border: solid 1px #25c481;
-				font-size: 13px;
-				color: #000000;
-				-moz-border-radius: 4px;
-				-webkit-border-radius: 4px;
-				border-radius: 4px;
-				padding: 5px;
-			}
-
-			select {
-				width: 246px;
-			}
-
-			label {
-				font-size: 14px;
-				color: #555555;
-				font-weight: normal;
-				display: block;
-				float: left;
-				margin: 0;
-				padding: 3px 13px 0 0;
-				text-align: right;
-				width: 140px;
-			}
-		}
-
-		/* Demo Styles */
-
-		html,
-		body {
-			height: 100%;
-		}
-
-		body {
-			font: 600 18px / 1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-			background-color: #f69d75;
-			color: #555555;
-		}
-
-		a {
-			color: inherit;
-			text-decoration: none;
-		}
-
-		.container {
-			justify-content: center;
-			align-items: center;
-			height: 50px;
-		}
-
-		.btn {
-			background-color: #fff;
-			padding: 1em 1.5em;
-			border-radius: 3px;
-			text-decoration: none;
-			i {
-				padding-right: 0.3em;
-			}
-		}
-
-		::-webkit-scrollbar {
-			width: 6px;
-		}
-		::-webkit-scrollbar-track {
-			box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-			-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-		}
-		::-webkit-scrollbar-thumb {
-			box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-			-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-		}
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 90vw;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-		h1 {
-			text-align: center
-		}
-		.grid {
-			display: grid;
-			grid-template-columns: 1fr;
-			gap: 10px
-		}
-	</style>
-
-	<div
-		class="example-wrapper">
-
-		{# <p>{{dump(telefonia)}}</p> #}
+	<div class="services-wrapper">
 		<h1>Services</h1>
-		<div class="grid">
+		<div class="services-section">
 			<section>
+				<h4>Internet:</h4>
 				<table class="tbl-content">
 					<tr class="tbl-header">
 						<th>Internet</th>
@@ -189,7 +19,9 @@ background: linear-gradient(to right, #3c1053, #ad5389); /* W3C, IE 10+/ Edge, F
 					</tr>
 					{% for item in internet %}
 						<tr class="">
-							<td>Internet {{item.speed}} </td>
+							<td>Internet
+								{{item.speed}}
+							</td>
 							<td>{{ item.price }}$</td>
 							<td>
 								<div class="tbl-buttonPanel">
@@ -204,7 +36,7 @@ background: linear-gradient(to right, #3c1053, #ad5389); /* W3C, IE 10+/ Edge, F
 						</tr>
 					{% endfor %}
 					<tr class="">
-						<td>
+						<td colspan="3">
 							<a href="{{url('admin_services_internet')}}">
 								<div class="tbl-buttonPanel-button">Create Internet Plan</div>
 							</a>
@@ -213,6 +45,7 @@ background: linear-gradient(to right, #3c1053, #ad5389); /* W3C, IE 10+/ Edge, F
 				</table>
 			</section>
 			<section>
+				<h4>Telephony:</h4>
 				<table class="tbl-content">
 					<tr class="tbl-header">
 						<th>Telephony</th>
@@ -221,7 +54,9 @@ background: linear-gradient(to right, #3c1053, #ad5389); /* W3C, IE 10+/ Edge, F
 					</tr>
 					{% for item in telefonia %}
 						<tr>
-							<td>Plan {{item.minutes}} minutes</td>
+							<td>Plan
+								{{item.minutes}}
+								minutes</td>
 							<td>{{ item.price }}$</td>
 							<td>
 								<div class="tbl-buttonPanel">
@@ -236,7 +71,7 @@ background: linear-gradient(to right, #3c1053, #ad5389); /* W3C, IE 10+/ Edge, F
 						</tr>
 					{% endfor %}
 					<tr>
-						<td>
+						<td colspan="3">
 							<a href="{{url('admin_services_telephony')}}">
 								<div class="tbl-buttonPanel-button">Create Telephony Plan</div>
 							</a>
@@ -245,6 +80,7 @@ background: linear-gradient(to right, #3c1053, #ad5389); /* W3C, IE 10+/ Edge, F
 				</table>
 			</section>
 			<section>
+				<h4>Cable:</h4>
 				<table class="tbl-content">
 					<tr class="tbl-header">
 						<th>Cable</th>
@@ -268,7 +104,7 @@ background: linear-gradient(to right, #3c1053, #ad5389); /* W3C, IE 10+/ Edge, F
 						</tr>
 					{% endfor %}
 					<tr>
-						<td>
+						<td colspan="3">
 							<a href="{{url('admin_services_cable')}}">
 								<div class="tbl-buttonPanel-button">Create Cable Plan</div>
 							</a>
@@ -277,7 +113,165 @@ background: linear-gradient(to right, #3c1053, #ad5389); /* W3C, IE 10+/ Edge, F
 				</table>
 			</section>
 
-
+			<section>
+				<h4>Programs:</h4>
+				<table class="tbl-content">
+					<tr class="tbl-header">
+						<th>Program</th>
+						<th>Hour</th>
+						<th>Week Day</th>
+						<th>Actions</th>
+					</tr>
+					{% for item in program %}
+						<tr>
+							<td>{{item.Name}}</td>
+							<td>{{item.Hour.format('H:i')}}</td>
+							<td>
+								<div class="services-td-scroll">
+									{% for week in item.WeekDay %}
+										<p>{{week}}</p>
+									{% endfor %}
+								</div>
+							</td>
+							<td>
+								<div
+									class="tbl-buttonPanel">
+									{# <a href="{{ path('delete_program', {'id': item.id}) }}"> #}
+									<div class="tbl-buttonPanel-button">delete</div>
+									{# </a> #}
+									{# <a href="{{ path('edit_program', {'id': item.id}) }}"> #}
+									<div class="tbl-buttonPanel-button">edit</div>
+									{# </a> #}
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td colspan="4">
+							<a href="{{url('admin_services_program')}}">
+								<div class="tbl-buttonPanel-button">Create New Program</div>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h4>Channels:</h4>
+				<table class="tbl-content">
+					<tr class="tbl-header">
+						<th>Channel</th>
+						<th>Programation</th>
+						<th>Actions</th>
+					</tr>
+					{% for item in channel %}
+						<tr>
+							<td>{{item.Name}}</td>
+							<td>
+								<div class="services-td-scroll">
+									{% for programation in item.Programs %}
+										<p>{{programation.name}}</p>
+									{% endfor %}
+								</div>
+							</td>
+							<td>
+								<div
+									class="tbl-buttonPanel">
+									{# <a href="{{ path('delete_channel', {'id': item.id}) }}"> #}
+									<div class="tbl-buttonPanel-button">delete</div>
+									{# </a> #}
+									{# <a href="{{ path('edit_channel', {'id': item.id}) }}"> #}
+									<div class="tbl-buttonPanel-button">edit</div>
+									{# </a> #}
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td colspan="3">
+							<a href="{{url('admin_services_channel')}}">
+								<div class="tbl-buttonPanel-button">Create New Channel</div>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h4>Plans:</h4>
+				<table class="tbl-content">
+					<tr class="tbl-header">
+						<th>Plan</th>
+						<th>Channels</th>
+						<th>Actions</th>
+					</tr>
+					{% for item in plan %}
+						<tr>
+							<td>{{item.Name}}</td>
+							<td>
+								<div class="services-td-scroll">
+									{% for programation in item.Channels %}
+										<p>{{programation.name}}</p>
+									{% endfor %}
+								</div>
+							</td>
+							<td>
+								<div
+									class="tbl-buttonPanel">
+									{# <a href="{{ path('delete_channel', {'id': item.id}) }}"> #}
+									<div class="tbl-buttonPanel-button">delete</div>
+									{# </a> #}
+									{# <a href="{{ path('edit_channel', {'id': item.id}) }}"> #}
+									<div class="tbl-buttonPanel-button">edit</div>
+									{# </a> #}
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td colspan="3">
+							<a href="{{url('admin_services_plan')}}">
+								<div class="tbl-buttonPanel-button">Create New Plan</div>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h4>Packages:</h4>
+				<table class="tbl-content">
+					<tr class="tbl-header">
+						<th>Package Name</th>
+						<th>Internet</th>
+						<th>Telephony</th>
+						<th>Cable</th>
+						<th>Actions</th>
+					</tr>
+					{% for item in package %}
+						<tr>
+							<td>{{item.Name}}</td>
+							<td>{{item.Internet? item.Internet.Name}}</td>
+							<td>{{item.Name}}</td>
+							<td>
+								<div
+									class="tbl-buttonPanel">
+									{# <a href="{{ path('delete_channel', {'id': item.id}) }}"> #}
+									<div class="tbl-buttonPanel-button">delete</div>
+									{# </a> #}
+									{# <a href="{{ path('edit_channel', {'id': item.id}) }}"> #}
+									<div class="tbl-buttonPanel-button">edit</div>
+									{# </a> #}
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td colspan="5">
+							<a href="{{url('admin_services_package')}}">
+								<div class="tbl-buttonPanel-button">Create New Package</div>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</section>
 		</div>
 	</div>
 {% endblock %}

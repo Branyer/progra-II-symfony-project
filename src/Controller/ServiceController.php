@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Cable;
+use App\Entity\Channel;
 use App\Entity\Internet;
+use App\Entity\Package;
+use App\Entity\Plan;
+use App\Entity\Program;
 use App\Entity\Telephony;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,6 +35,18 @@ class ServiceController extends AbstractController
         $CableRepository = $this->getDoctrine()->getRepository(Cable::class);
         $cable = $CableRepository->findAll();
         
+        $ProgramRepository = $this->getDoctrine()->getRepository(Program::class);
+        $program = $ProgramRepository->findAll();
+        
+        $ChanelRepository = $this->getDoctrine()->getRepository(Channel::class);
+        $channel = $ChanelRepository->findAll();
+        
+        $PlanRepository = $this->getDoctrine()->getRepository(Plan::class);
+        $plan = $PlanRepository->findAll();
+        
+        $PackageRepository = $this->getDoctrine()->getRepository(Package::class);
+        $package = $PackageRepository->findAll();
+        
         //TODO buscar servicio de cable
 
             return $this->render('admin/services/index.html.twig',
@@ -38,6 +54,10 @@ class ServiceController extends AbstractController
                 "internet"=>$internet,
                 "telefonia"=> $telefonia,
                 "cable" => $cable,
+                "program"=>$program,
+                "channel"=>$channel,
+                "plan"=>$plan,
+                "package"=>$package,
             ]);
       
     }
