@@ -18,24 +18,6 @@ class Package
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Cable::class, inversedBy="packages")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Cable;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Internet::class, inversedBy="Packages")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Internet;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Telephony::class, inversedBy="Packages")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Telephony;
-
-    /**
      * @ORM\Column(type="float")
      */
     private $Discount;
@@ -43,42 +25,6 @@ class Package
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCable(): ?Cable
-    {
-        return $this->Cable;
-    }
-
-    public function setCable(?Cable $Cable): self
-    {
-        $this->Cable = $Cable;
-
-        return $this;
-    }
-
-    public function getInternet(): ?Internet
-    {
-        return $this->Internet;
-    }
-
-    public function setInternet(?Internet $Internet): self
-    {
-        $this->Internet = $Internet;
-
-        return $this;
-    }
-
-    public function getTelephony(): ?Telephony
-    {
-        return $this->Telephony;
-    }
-
-    public function setTelephony(?Telephony $Telephony): self
-    {
-        $this->Telephony = $Telephony;
-
-        return $this;
     }
 
     public function getDiscount(): ?float

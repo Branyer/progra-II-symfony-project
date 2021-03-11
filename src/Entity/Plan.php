@@ -20,89 +20,28 @@ class Plan
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=Channel::class, mappedBy="planID")
-     */
-    private $Channels;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Cable::class, mappedBy="Plan")
-     */
-    private $Cables;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $Name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Channel::class, inversedBy="plans")
+     */
+    private $channels;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Cable::class, mappedBy="plan", cascade={"persist", "remove"})
+     */
+    private $cable;
+
     public function __construct()
     {
-        $this->Channels = new ArrayCollection();
-        $this->Cables = new ArrayCollection();
+        $this->channels = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Channel[]
-     */
-    public function getChannels(): Collection
-    {
-        return $this->Channels;
-    }
-
-    public function addChannel(Channel $channel): self
-    {
-        if (!$this->Channels->contains($channel)) {
-            $this->Channels[] = $channel;
-            $channel->setPlanID($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChannel(Channel $channel): self
-    {
-        if ($this->Channels->removeElement($channel)) {
-            // set the owning side to null (unless already changed)
-            if ($channel->getPlanID() === $this) {
-                $channel->setPlanID(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Cable[]
-     */
-    public function getCables(): Collection
-    {
-        return $this->Cables;
-    }
-
-    public function addCable(Cable $cable): self
-    {
-        if (!$this->Cables->contains($cable)) {
-            $this->Cables[] = $cable;
-            $cable->setPlan($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCable(Cable $cable): self
-    {
-        if ($this->Cables->removeElement($cable)) {
-            // set the owning side to null (unless already changed)
-            if ($cable->getPlan() === $this) {
-                $cable->setPlan(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -113,6 +52,47 @@ class Plan
     public function setName(string $Name): self
     {
         $this->Name = $Name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Channel[]
+     */
+    public function getChannels(): Collection
+    {
+        return $this->channels;
+    }
+
+    public function addChannel(Channel $channel): self
+    {
+        if (!$this->channels->contains($channel)) {
+            $this->channels[] = $channel;
+        }
+
+        return $this;
+    }
+
+    public function removeChannel(Channel $channel): self
+    {
+        $this->channels->removeElement($channel);
+
+        return $this;
+    }
+
+    public function getCable(): ?Cable
+    {
+        return $this->cable;
+    }
+
+    public function setCable(Cable $cable): self
+    {
+        // set the owning side of the relation if necessary
+        if ($cable->getPlan() !== $this) {
+            $cable->setPlan($this);
+        }
+
+        $this->cable = $cable;
 
         return $this;
     }

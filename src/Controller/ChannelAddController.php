@@ -27,29 +27,38 @@ class ChannelAddController extends AbstractController
 
         $channel = new Channel();
 
+
+
         $form = $this->createFormBuilder($channel)
             // ->add('name', TextType::class)
             ->add('name', TextType::class)
-            ->add('Programation', EntityType::class, [
+            ->add('programs', EntityType::class, [
                 // looks for choices from this entity
                 'class' => Program::class,
             
                 // uses the User.username property as the visible option string
                 'choice_label' =>  function ($Program) {
-                    return 'Name: '.$Program->getName();
+                    return $Program->getName();
                 },
                 'multiple' => true,
             
                 // used to render a select box, check boxes or radios
-                // 'expanded' => true,
+                'expanded' => true,
+                // 'checkboxes' => true
             ])
-            ->add('save', SubmitType::class, ['label' => 'Create program'])
+            ->add('save', SubmitType::class, ['label' => 'Create a Channel'])
             ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // dump($form);
-            // die();
+            
+             $arr = $form->get('programs')->getData();
+
+             foreach ($arr as $program) {
+               $channel->removeProgram($program);
+               $channel->addProgram($program);
+            }
+           
             $em->persist($channel);
             $em->flush();
             return $this->redirectToRoute('admin_services');

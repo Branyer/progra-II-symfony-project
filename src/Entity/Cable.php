@@ -19,11 +19,6 @@ class Cable
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Plan::class, inversedBy="Cables")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Plan;
 
     /**
      * @ORM\Column(type="float")
@@ -31,30 +26,19 @@ class Cable
     private $Price;
 
     /**
-     * @ORM\OneToMany(targetEntity=Package::class, mappedBy="Cable")
+     * @ORM\OneToOne(targetEntity=Plan::class, inversedBy="cable", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $packages;
+    private $plan;
+
 
     public function __construct()
     {
-        $this->packages = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPlan(): ?Plan
-    {
-        return $this->Plan;
-    }
-
-    public function setPlan(?Plan $Plan): self
-    {
-        $this->Plan = $Plan;
-
-        return $this;
     }
 
     public function getPrice(): ?float
@@ -69,33 +53,17 @@ class Cable
         return $this;
     }
 
-    /**
-     * @return Collection|Package[]
-     */
-    public function getPackages(): Collection
+    public function getPlan(): ?Plan
     {
-        return $this->packages;
+        return $this->plan;
     }
 
-    public function addPackage(Package $package): self
+    public function setPlan(Plan $plan): self
     {
-        if (!$this->packages->contains($package)) {
-            $this->packages[] = $package;
-            $package->setCable($this);
-        }
+        $this->plan = $plan;
 
         return $this;
     }
 
-    public function removePackage(Package $package): self
-    {
-        if ($this->packages->removeElement($package)) {
-            // set the owning side to null (unless already changed)
-            if ($package->getCable() === $this) {
-                $package->setCable(null);
-            }
-        }
-
-        return $this;
-    }
+   
 }

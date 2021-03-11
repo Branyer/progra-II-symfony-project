@@ -24,10 +24,6 @@ class Channel
      */
     private $Name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Program::class, mappedBy="channelId")
-     */
-    private $Programation;
 
     /**
      * @ORM\ManyToOne(targetEntity=Plan::class, inversedBy="Channels")
@@ -35,9 +31,20 @@ class Channel
      */
     private $plan;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Program::class, mappedBy="channel", orphanRemoval=true)
+     */
+    private $programs;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Plan::class, mappedBy="channels")
+     */
+    private $plans;
+
     public function __construct()
     {
-        $this->Programation = new ArrayCollection();
+        $this->programs = new ArrayCollection();
+        $this->plans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,36 +64,6 @@ class Channel
         return $this;
     }
 
-    /**
-     * @return Collection|Program[]
-     */
-    public function getProgramation(): Collection
-    {
-        return $this->Programation;
-    }
-
-    public function addProgramation(Program $programation): self
-    {
-        if (!$this->Programation->contains($programation)) {
-            $this->Programation[] = $programation;
-            $programation->setChannelId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProgramation(Program $programation): self
-    {
-        if ($this->Programation->removeElement($programation)) {
-            // set the owning side to null (unless already changed)
-            if ($programation->getChannelId() === $this) {
-                $programation->setChannelId(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getPlanID(): ?Plan
     {
         return $this->plan;
@@ -95,6 +72,63 @@ class Channel
     public function setPlanID(?Plan $plan): self
     {
         $this->plan = $plan;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Program[]
+     */
+    public function getPrograms(): Collection
+    {
+        return $this->programs;
+    }
+
+    public function addProgram(Program $program): self
+    {
+        // if (!$this->programs->contains($program)) {
+            $this->programs[] = $program;
+            $program->setChannel($this);
+        // }
+
+        return $this;
+    }
+
+    public function removeProgram(Program $program): self
+    {
+        if ($this->programs->removeElement($program)) {
+            // set the owning side to null (unless already changed)
+            if ($program->getChannel() === $this) {
+                $program->setChannel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Plan[]
+     */
+    public function getPlans(): Collection
+    {
+        return $this->plans;
+    }
+
+    public function addPlan(Plan $plan): self
+    {
+        if (!$this->plans->contains($plan)) {
+            $this->plans[] = $plan;
+            $plan->addChannel($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlan(Plan $plan): self
+    {
+        if ($this->plans->removeElement($plan)) {
+            $plan->removeChannel($this);
+        }
 
         return $this;
     }

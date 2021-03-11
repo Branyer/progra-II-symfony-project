@@ -28,14 +28,15 @@ class Program
     private $Hour;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Channel::class, inversedBy="Programation")
-     */
-    private $channel;
-
-    /**
      * @ORM\Column(type="array")
      */
     private $WeekDay = [];
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Channel::class, inversedBy="programs")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $channel;
 
     public function getId(): ?int
     {
@@ -77,14 +78,14 @@ class Program
         return $this;
     }
 
-    public function getChannelId(): ?Channel
+    public function getChannel(): ?Channel
     {
-        return $this->channelId;
+        return $this->channel;
     }
 
-    public function setChannelId(?Channel $channelId): self
+    public function setChannel(?Channel $channel): self
     {
-        $this->channelId = $channelId;
+        $this->channel = $channel;
 
         return $this;
     }
