@@ -23,6 +23,9 @@ class PlanAddController extends AbstractController
      */
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $plan = new Plan();
 
         $form = $this->createFormBuilder($plan)

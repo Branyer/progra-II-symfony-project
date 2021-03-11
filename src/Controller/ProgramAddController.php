@@ -21,6 +21,9 @@ class ProgramAddController extends AbstractController
      */
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $program = new Program();
 
         $form = $this->createFormBuilder($program, array('allow_extra_fields' => true))

@@ -20,7 +20,7 @@ class ServiceController extends AbstractController
      */
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
-       
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
         
         $InternetRepository = $this->getDoctrine()->getRepository(Internet::class);
         $internet = $InternetRepository->findAll();

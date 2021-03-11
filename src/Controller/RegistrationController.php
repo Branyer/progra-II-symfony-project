@@ -20,6 +20,11 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppCustomAuthenticator $authenticator): Response
     {
+
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -27,8 +32,8 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
            
             // encode the plain password
-            if(true){
-                $user->setRoles(Array("ROLE_ADMIN"));
+            if(false){
+                // $user->setRoles(Array("ROLE_ADMIN", "ROLE_USER"));
             }else {
                 $user->setRoles(Array("ROLE_USER"));
             }

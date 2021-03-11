@@ -18,6 +18,8 @@ class TelephonyAddController extends AbstractController
      */
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $telephony = new Telephony();
 
         $form = $this->createFormBuilder($telephony)
@@ -42,6 +44,9 @@ class TelephonyAddController extends AbstractController
      */
     public function deleteTelephony($id)
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $repository = $this->getDoctrine()->getRepository(Telephony::class);
         $telephony = $repository->find($id);
         
@@ -59,6 +64,9 @@ class TelephonyAddController extends AbstractController
      */
     public function editTelephony($id, EntityManagerInterface $em, Request $request)
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $repository = $this->getDoctrine()->getRepository(Telephony::class);
         $telephony = $repository->find($id);
 

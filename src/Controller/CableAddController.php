@@ -23,6 +23,9 @@ class CableAddController extends AbstractController
      */
     public function adminService(EntityManagerInterface $em, Request $request, CableRepository $cr): Response
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $cable = new Cable();
         
 
@@ -63,6 +66,9 @@ class CableAddController extends AbstractController
      */
     public function deletePlan($id)
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $repository = $this->getDoctrine()->getRepository(Cable::class);
         $cable = $repository->find($id);
 
@@ -80,6 +86,8 @@ class CableAddController extends AbstractController
      */
     public function editCable($id, EntityManagerInterface $em, Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $repository = $this->getDoctrine()->getRepository(Cable::class);
         $cable = $repository->find($id);
 

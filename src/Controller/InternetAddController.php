@@ -18,6 +18,9 @@ class InternetAddController extends AbstractController
      */
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $internet = new Internet();
 
         $form = $this->createFormBuilder($internet)
@@ -42,6 +45,9 @@ class InternetAddController extends AbstractController
      */
     public function deleteInternet($id)
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $repository = $this->getDoctrine()->getRepository(Internet::class);
         $internet = $repository->find($id);
         
@@ -60,6 +66,9 @@ class InternetAddController extends AbstractController
      */
     public function editInternet($id, EntityManagerInterface $em, Request $request)
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $repository = $this->getDoctrine()->getRepository(Internet::class);
         $internet = $repository->find($id);
 

@@ -22,6 +22,9 @@ class ChannelAddController extends AbstractController
      */
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
         $channel = new Channel();
 
         $form = $this->createFormBuilder($channel)
@@ -51,6 +54,9 @@ class ChannelAddController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('admin_services');
         }
+
+        
+
         return $this->render('admin/services/channel.html.twig', [
             'ServicesForm' => $form->createView(),
         ]);
