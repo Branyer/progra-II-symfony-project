@@ -47,8 +47,6 @@ class ServiceController extends AbstractController
         $PackageRepository = $this->getDoctrine()->getRepository(Package::class);
         $package = $PackageRepository->findAll();
         
-        //TODO buscar servicio de cable
-
             return $this->render('admin/services/index.html.twig',
             [
                 "internet"=>$internet,

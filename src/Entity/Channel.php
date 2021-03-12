@@ -26,20 +26,10 @@ class Channel
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=Plan::class, inversedBy="Channels")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $plan;
-
-    /**
      * @ORM\OneToMany(targetEntity=Program::class, mappedBy="channel", orphanRemoval=true)
      */
     private $programs;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Plan::class, mappedBy="channels")
-     */
-    private $plans;
 
     public function __construct()
     {
@@ -64,17 +54,6 @@ class Channel
         return $this;
     }
 
-    public function getPlanID(): ?Plan
-    {
-        return $this->plan;
-    }
-
-    public function setPlanID(?Plan $plan): self
-    {
-        $this->plan = $plan;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Program[]
@@ -106,30 +85,5 @@ class Channel
         return $this;
     }
 
-    /**
-     * @return Collection|Plan[]
-     */
-    public function getPlans(): Collection
-    {
-        return $this->plans;
-    }
-
-    public function addPlan(Plan $plan): self
-    {
-        if (!$this->plans->contains($plan)) {
-            $this->plans[] = $plan;
-            $plan->addChannel($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlan(Plan $plan): self
-    {
-        if ($this->plans->removeElement($plan)) {
-            $plan->removeChannel($this);
-        }
-
-        return $this;
-    }
+   
 }

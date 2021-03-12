@@ -36,7 +36,7 @@ class CableAddController extends AbstractController
             
                 // uses the User.username property as the visible option string
                 'choice_label' =>  function ($Plan) {
-                    return 'Name: '.$Plan->getName();
+                    return $Plan->getName();
                 },
                 // 'multiple' => true,
             
@@ -49,8 +49,7 @@ class CableAddController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // dump($form);
-            // die();
+            $form->get('Plan')->getData()->setCable($cable);
             $em->persist($cable);
             $em->flush();
             return $this->redirectToRoute('admin_services');

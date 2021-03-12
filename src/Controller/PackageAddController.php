@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,6 +29,7 @@ class PackageAddController extends AbstractController
         $package = new Package();
 
         $form = $this->createFormBuilder($package)
+        ->add('Name', TextType::class)
         ->add('Internet', EntityType::class, [
             // looks for choices from this entity
             'class' => Internet::class,
@@ -35,6 +38,8 @@ class PackageAddController extends AbstractController
             'choice_label' =>  function ($Internet) {
                 return 'Speed: '.$Internet->getSpeed().'=>Price: '.$Internet->getPrice();
             },
+            'placeholder' => 'Choose an option',
+             'required' => false
         ])
         ->add('Telephony', EntityType::class, [
             // looks for choices from this entity
@@ -44,6 +49,8 @@ class PackageAddController extends AbstractController
             'choice_label' =>  function ($Telephony) {
                 return 'Minutes: '.$Telephony->getMinutes().'=>Price: '.$Telephony->getPrice();
             },
+            'placeholder' => 'Choose an option',
+            'required' => false
         ])
         ->add('Cable', EntityType::class, [
             // looks for choices from this entity
@@ -53,7 +60,11 @@ class PackageAddController extends AbstractController
             'choice_label' =>  function ($Cable) {
                 return 'Plan: '.$Cable->getPlan()->getName().'=>Price: '.$Cable->getPrice();
             },
+
+            'placeholder' => 'Choose an option',
+            'required' => false
         ])
+            ->add('discount', NumberType::class)
             ->add('save', SubmitType::class, ['label' => 'Create Package'])
             ->getForm();
         $form->handleRequest($request);

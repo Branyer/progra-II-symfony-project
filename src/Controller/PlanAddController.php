@@ -37,20 +37,19 @@ class PlanAddController extends AbstractController
 
                 // uses the User.username property as the visible option string
                 'choice_label' =>  function ($Channel) {
-                    return 'Name: ' . $Channel->getName();
+                    return $Channel->getName();
                 },
                 'multiple' => true,
-
+                'expanded' => true,
                 // used to render a select box, check boxes or radios
                 // 'expanded' => true,
             ])
-            ->add('save', SubmitType::class, ['label' => 'Create program'])
+            ->add('save', SubmitType::class, ['label' => 'Create Cable Plan'])
             ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // dump($form);
-            // die();
+        
             $em->persist($plan);
             $em->flush();
             return $this->redirectToRoute('admin_services');

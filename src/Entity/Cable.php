@@ -31,9 +31,15 @@ class Cable
      */
     private $plan;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Package::class, mappedBy="cable")
+     */
+    private $packages;
+
 
     public function __construct()
     {
+        $this->packages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,6 +67,36 @@ class Cable
     public function setPlan(Plan $plan): self
     {
         $this->plan = $plan;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Package[]
+     */
+    public function getPackages(): Collection
+    {
+        return $this->packages;
+    }
+
+    public function addPackage(Package $package): self
+    {
+        if (!$this->packages->contains($package)) {
+            $this->packages[] = $package;
+            $package->setCable($this);
+        }
+
+        return $this;
+    }
+
+    public function removePackage(Package $package): self
+    {
+        if ($this->packages->removeElement($package)) {
+            // set the owning side to null (unless already changed)
+            if ($package->getCable() === $this) {
+                $package->setCable(null);
+            }
+        }
 
         return $this;
     }

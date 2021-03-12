@@ -66,9 +66,7 @@ class Plan
 
     public function addChannel(Channel $channel): self
     {
-        if (!$this->channels->contains($channel)) {
             $this->channels[] = $channel;
-        }
 
         return $this;
     }

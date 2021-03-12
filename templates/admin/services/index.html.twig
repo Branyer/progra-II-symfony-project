@@ -239,7 +239,7 @@
 				<h4>Packages:</h4>
 				<table class="tbl-content">
 					<tr class="tbl-header">
-						<th>Package Name</th>
+						<th>Package Name</th> 
 						<th>Internet</th>
 						<th>Telephony</th>
 						<th>Cable</th>
@@ -248,8 +248,9 @@
 					{% for item in package %}
 						<tr>
 							<td>{{item.Name}}</td>
-							<td>{{item.Internet? item.Internet.Name}}</td>
-							<td>{{item.Name}}</td>
+							<td>{{item.Internet? item.Internet.speed}}</td>
+							<td>{{item.Telephony? item.Telephony.minutes}}</td>
+							<td>{{item.Cable? item.Cable.plan.Name}}</td>
 							<td>
 								<div
 									class="tbl-buttonPanel">
