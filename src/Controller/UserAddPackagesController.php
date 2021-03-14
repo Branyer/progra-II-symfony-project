@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Package;
 use App\Entity\User;
+use App\Entity\Bill;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,11 +67,12 @@ class UserAddPackagesController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // dump($user);
-            // dump($form->get('package')->getData());
-            // die();
+            $bill = new Bill();
+            $bill->setUser($user);
+            $bill->setPackage($user->getPackage());
 
             $em->persist($user);
+            $em->persist($bill);
             $em->flush();
             return $this->redirectToRoute('home');
         }

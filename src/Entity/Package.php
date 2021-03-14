@@ -49,9 +49,15 @@ class Package
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Bill::class, mappedBy="package")
+     */
+    private $bills;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->bills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,6 +149,36 @@ class Package
             // set the owning side to null (unless already changed)
             if ($user->getPackage() === $this) {
                 $user->setPackage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bill[]
+     */
+    public function getBills(): Collection
+    {
+        return $this->bills;
+    }
+
+    public function addBill(Bill $bill): self
+    {
+        if (!$this->bills->contains($bill)) {
+            $this->bills[] = $bill;
+            $bill->setPackage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBill(Bill $bill): self
+    {
+        if ($this->bills->removeElement($bill)) {
+            // set the owning side to null (unless already changed)
+            if ($bill->getPackage() === $this) {
+                $bill->setPackage(null);
             }
         }
 

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,6 +42,16 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity=Package::class, inversedBy="users")
      */
     private $package;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Bill::class, mappedBy="user")
+     */
+    private $bills;
+
+    public function __construct()
+    {
+        $this->bills = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -131,6 +143,36 @@ class User implements UserInterface
     public function setPackage(?Package $package): self
     {
         $this->package = $package;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bill[]
+     */
+    public function getBills(): Collection
+    {
+        return $this->bills;
+    }
+
+    public function addBill(Bill $bill): self
+    {
+        if (!$this->bills->contains($bill)) {
+            $this->bills[] = $bill;
+            $bill->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBill(Bill $bill): self
+    {
+        if ($this->bills->removeElement($bill)) {
+            // set the owning side to null (unless already changed)
+            if ($bill->getUser() === $this) {
+                $bill->setUser(null);
+            }
+        }
 
         return $this;
     }
