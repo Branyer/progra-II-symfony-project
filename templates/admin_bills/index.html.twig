@@ -23,11 +23,11 @@
         <div class="bill">
             <p><b>User: </b>{{bill.user.email}}</b>
             <p><b>Package: </b>{{bill.package.Name}}</b>
-            <p><b>Internet: </b>{{bill.package.internet ? bill.package.internet.speed : "none"}}  \ <b> Precio: </b> {{ bill.package.internet.price ? bill.package.internet.price : 0}}$ </p>
-            <p><b>Telephony: </b>{{bill.package.telephony ? bill.package.telephony.minutes : "none"}} \ <b> Precio: </b> {{ bill.package.telephony.price ? bill.package.telephony.price : 0}}$  </p>
-            <p><b>Cable: </b>{{bill.package.cable ? bill.package.cable.plan.Name : "none"}}  \ <b> Precio: </b> {{ bill.package.cable.price ? bill.package.cable.price : 0}}$ </p>
+            <p><b>Internet: </b>{{bill.package.internet ? bill.package.internet.speed : "none"}}  \ <b> Precio: </b> {{ bill.package.internet ? bill.package.internet.price : 0}}$ </p>
+            <p><b>Telephony: </b>{{bill.package.telephony ? bill.package.telephony.minutes : "none"}} \ <b> Precio: </b> {{ bill.package.telephony? bill.package.telephony.price : 0}}$  </p>
+            <p><b>Cable: </b>{{bill.package.cable ? bill.package.cable.plan.Name : "none"}}  \ <b> Precio: </b> {{ bill.package.cable ? bill.package.cable.price : 0}}$ </p>
             <p><b>Discount: </b>{{bill.package.discount}}% </p>
-            <p><b>Total: </b> {{  ((bill.package.internet.price ? bill.package.internet.price : 0) + (bill.package.telephony.price ? bill.package.telephony.price : 0) + (bill.package.cable.price ? bill.package.cable.price : 0)) - ((bill.package.internet.price ? bill.package.internet.price : 0) + (bill.package.telephony.price ? bill.package.telephony.price : 0) + (bill.package.cable.price ? bill.package.cable.price : 0))*(1/bill.package.discount) }}$</p> 
+            <p><b>Total: </b> {{  ((bill.package.internet ? bill.package.internet.price : 0) + (bill.package.telephony ? bill.package.telephony.price : 0) + (bill.package.cable ? bill.package.cable.price : 0)) - ((bill.package.internet ? bill.package.internet.price : 0) + (bill.package.telephony ? bill.package.telephony.price : 0) + (bill.package.cable ? bill.package.cable.price : 0))*(1/bill.package.discount) }}$</p> 
         </div>
 
     {% endfor %}

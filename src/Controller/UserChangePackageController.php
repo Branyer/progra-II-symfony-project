@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ChangePackageRequest;
 use App\Entity\Package;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,15 +71,16 @@ class UserChangePackageController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            dump($user);
-
             if($prevId !== $user->getPackage()->getId()) {
 
-                //TODO enviar consulta de cambio al admin
+                $changeRequest = new ChangePackageRequest();
+                $changeRequest->setUser($user);
+                $changeRequest->setPackage($user->getPackage());
 
+                $em->persist($changeRequest);
+                $em->flush();
             }
 
-            die();
 
             return $this->redirectToRoute('home');
         }

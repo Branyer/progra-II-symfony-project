@@ -54,10 +54,16 @@ class Package
      */
     private $bills;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ChangePackageRequest::class, mappedBy="package")
+     */
+    private $changePackageRequests;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->bills = new ArrayCollection();
+        $this->changePackageRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,6 +185,36 @@ class Package
             // set the owning side to null (unless already changed)
             if ($bill->getPackage() === $this) {
                 $bill->setPackage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChangePackageRequest[]
+     */
+    public function getChangePackageRequests(): Collection
+    {
+        return $this->changePackageRequests;
+    }
+
+    public function addChangePackageRequest(ChangePackageRequest $changePackageRequest): self
+    {
+        if (!$this->changePackageRequests->contains($changePackageRequest)) {
+            $this->changePackageRequests[] = $changePackageRequest;
+            $changePackageRequest->setPackage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChangePackageRequest(ChangePackageRequest $changePackageRequest): self
+    {
+        if ($this->changePackageRequests->removeElement($changePackageRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($changePackageRequest->getPackage() === $this) {
+                $changePackageRequest->setPackage(null);
             }
         }
 

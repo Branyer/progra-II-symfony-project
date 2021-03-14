@@ -49,6 +49,7 @@
 				<p>Welcome Admin</p>
 				<a href="{{url('admin_services')}}">Admin Panel</a>
 				<a href="{{url('admin_bills')}}">Bills</a>
+				<a href="{{url('admin_change_package_request')}}">Package change requests</a>
 			{% else %}
 				<p>Welcome User</p>
 				{%if app.user.package == null %}

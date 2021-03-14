@@ -48,9 +48,15 @@ class User implements UserInterface
      */
     private $bills;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ChangePackageRequest::class, mappedBy="user")
+     */
+    private $changePackageRequests;
+
     public function __construct()
     {
         $this->bills = new ArrayCollection();
+        $this->changePackageRequests = new ArrayCollection();
     }
 
 
@@ -171,6 +177,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($bill->getUser() === $this) {
                 $bill->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChangePackageRequest[]
+     */
+    public function getChangePackageRequests(): Collection
+    {
+        return $this->changePackageRequests;
+    }
+
+    public function addChangePackageRequest(ChangePackageRequest $changePackageRequest): self
+    {
+        if (!$this->changePackageRequests->contains($changePackageRequest)) {
+            $this->changePackageRequests[] = $changePackageRequest;
+            $changePackageRequest->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChangePackageRequest(ChangePackageRequest $changePackageRequest): self
+    {
+        if ($this->changePackageRequests->removeElement($changePackageRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($changePackageRequest->getUser() === $this) {
+                $changePackageRequest->setUser(null);
             }
         }
 

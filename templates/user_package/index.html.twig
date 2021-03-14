@@ -10,10 +10,10 @@
 
 <div class="example-wrapper">
    <h1>{{package.Name}}</h1>
-   <p><b>Internet: </b>{{internet ? internet.speed : "none"}}  \ <b> Precio: </b> {{ internet.price ? internet.price : 0}}$ </p>
-   <p><b>Telephony: </b>{{telephony ? telephony.minutes : "none"}} \ <b> Precio: </b> {{ telephony.price ? telephony.price : 0}}$  </p>
-   <p><b>Cable: </b>{{cable ? cable.plan.Name : "none"}}  \ <b> Precio: </b> {{ cable.price ? cable.price : 0}}$ </p>
+   <p><b>Internet: </b>{{internet ? internet.speed : "none"}}  \ <b> Precio: </b> {{ internet ? internet.price : 0}}$ </p>
+   <p><b>Telephony: </b>{{telephony ? telephony.minutes : "none"}} \ <b> Precio: </b> {{ telephony ? telephony.price : 0}}$  </p>
+   <p><b>Cable: </b>{{cable ? cable.plan.Name : "none"}}  \ <b> Precio: </b> {{ cable ? cable.price : 0}}$ </p>
    <p><b>Discount: </b>{{package.discount}}% </p>
-   <p><b>Total: </b> {{  ((internet.price ? internet.price : 0) + (telephony.price ? telephony.price : 0) + (cable.price ? cable.price : 0)) - ((internet.price ? internet.price : 0) + (telephony.price ? telephony.price : 0) + (cable.price ? cable.price : 0))*(1/package.discount) }}$</p> 
+   <p><b>Total: </b> {{  ((internet ? internet.price : 0) + (telephony ? telephony : 0) + (cable ? cable.price : 0)) - ((internet ? internet.price : 0) + (telephony ? telephony.price : 0) + (cable ? cable.price : 0))*(1/package.discount) }}$</p> 
 </div>
 {% endblock %}
