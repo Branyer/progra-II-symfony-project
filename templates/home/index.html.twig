@@ -54,8 +54,6 @@
 				<a href="{{path('user_change_package', {'id': app.user.id})}}">Change Package</a>
 				<a href="{{path('user_package', {'id': app.user.package.id})}}">My Package</a>
 
-
-				{{dump(app.user.package)}}
 			{% endif %}
 			<a href="{{url('app_logout')}}">Logout</a>
 		</div>
