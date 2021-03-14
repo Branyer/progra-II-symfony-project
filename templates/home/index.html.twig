@@ -50,6 +50,12 @@
 				<a href="{{url('admin_services')}}">Admin Panel</a>
 			{% else %}
 				<p>Welcome User</p>
+				<a href="{{ path('user_add_packages', {'id': app.user.id}) }}">Add Package</a>
+				<a href="{{path('user_change_package', {'id': app.user.id})}}">Change Package</a>
+				<a href="{{path('user_package', {'id': app.user.package.id})}}">My Package</a>
+
+
+				{{dump(app.user.package)}}
 			{% endif %}
 			<a href="{{url('app_logout')}}">Logout</a>
 		</div>
