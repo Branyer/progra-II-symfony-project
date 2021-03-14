@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProgramRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,12 +22,7 @@ class Program
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
-
-    /**
-     * @ORM\Column(type="time")
-     */
-    private $Hour;
+    private $Name;
 
     /**
      * @ORM\Column(type="array")
@@ -33,10 +30,19 @@ class Program
     private $WeekDay = [];
 
     /**
-     * @ORM\ManyToOne(targetEntity=Channel::class, inversedBy="programs")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\Column(type="time")
      */
-    private $channel;
+    private $Hour;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Channel::class, mappedBy="programs")
+     */
+    private $channels;
+
+    public function __construct()
+    {
+        $this->channels = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,15 +51,16 @@ class Program
 
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->Name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $Name): self
     {
-        $this->name = $name;
+        $this->Name = $Name;
 
         return $this;
     }
+
     public function getWeekDay(): ?array
     {
         return $this->WeekDay;
@@ -78,16 +85,30 @@ class Program
         return $this;
     }
 
-    public function getChannel(): ?Channel
+    /**
+     * @return Collection|Channel[]
+     */
+    public function getChannels(): Collection
     {
-        return $this->channel;
+        return $this->channels;
     }
 
-    public function setChannel(?Channel $channel): self
+    public function addChannel(Channel $channel): self
     {
-        $this->channel = $channel;
+        if (!$this->channels->contains($channel)) {
+            $this->channels[] = $channel;
+            $channel->addProgram($this);
+        }
 
         return $this;
     }
 
+    public function removeChannel(Channel $channel): self
+    {
+        if ($this->channels->removeElement($channel)) {
+            $channel->removeProgram($this);
+        }
+
+        return $this;
+    }
 }

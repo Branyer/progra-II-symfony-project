@@ -24,17 +24,14 @@ class Channel
      */
     private $Name;
 
-
     /**
-     * @ORM\OneToMany(targetEntity=Program::class, mappedBy="channel", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Program::class, inversedBy="channels")
      */
     private $programs;
-
 
     public function __construct()
     {
         $this->programs = new ArrayCollection();
-        $this->plans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,7 +51,6 @@ class Channel
         return $this;
     }
 
-
     /**
      * @return Collection|Program[]
      */
@@ -65,25 +61,17 @@ class Channel
 
     public function addProgram(Program $program): self
     {
-        // if (!$this->programs->contains($program)) {
+        if (!$this->programs->contains($program)) {
             $this->programs[] = $program;
-            $program->setChannel($this);
-        // }
+        }
 
         return $this;
     }
 
     public function removeProgram(Program $program): self
     {
-        if ($this->programs->removeElement($program)) {
-            // set the owning side to null (unless already changed)
-            if ($program->getChannel() === $this) {
-                $program->setChannel(null);
-            }
-        }
+        $this->programs->removeElement($program);
 
         return $this;
     }
-
-   
 }

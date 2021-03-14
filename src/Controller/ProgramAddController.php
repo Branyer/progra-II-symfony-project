@@ -60,4 +60,71 @@ class ProgramAddController extends AbstractController
             'name'=>'Create an Program',
         ]);
     }
+
+    /**
+     * @Route("/admin/services/program/delete/{id}", name="delete_program")
+     */
+    public function deleteTelephony($id)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
+        $repository = $this->getDoctrine()->getRepository(Program::class);
+        $program = $repository->find($id);
+        
+        if($program) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($program);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_services');
+    }
+    
+    /**
+     * @Route("/admin/services/program/edit/{id}", name="edit_program")
+     */
+    public function editTelephony($id, EntityManagerInterface $em, Request $request)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN',null, 'User tried to access a page without having ROLE_ADMIN');
+
+        $repository = $this->getDoctrine()->getRepository(Program::class);
+        $program = $repository->find($id);
+
+        $form = $this->createFormBuilder($program, array('allow_extra_fields' => true))
+            // ->add('name', TextType::class)
+            ->add('name', TextType::class)
+            ->add('hour', TimeType::class)
+
+            ->add('WeekDay', ChoiceType::class, [
+                'placeholder' => 'Choose an option',
+                'expanded' => true,
+                'multiple' => true,
+                'choices' => ['Lunes' => 'Lun',
+                             'Martes' => 'Mar',
+                             'Miércoles' => 'Mie',
+                             'Jueves' => 'Jue',
+                             'Viernes' => 'Vie',
+                             'Sábado' => 'Sab',
+                             'Domingo' => 'Dom',],
+            ])
+            ->add('save', SubmitType::class, ['label' => 'Create program'])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $program->setName($form->get('name')->getData());
+            $program->setHour($form->get('hour')->getData());
+            $program->setWeekDay($form->get('WeekDay')->getData());
+            $em->flush();
+            return $this->redirectToRoute('admin_services');
+        }
+        
+        return $this->render('admin/services/telephony.html.twig', [
+            'ServicesForm' => $form->createView(),
+            'name'=>'Edit an Telephony Service',
+        ]);
+    }
 }
