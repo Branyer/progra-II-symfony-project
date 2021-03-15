@@ -5,16 +5,49 @@
 {% block body %}
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; color:white;}
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
+	<link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
 
-<div class="example-wrapper">
-   <h1>{{package.Name}}</h1>
-   <p><b>Internet: </b>{{internet ? internet.speed : "none"}}  \ <b> Precio: </b> {{ internet ? internet.price : 0}}$ </p>
-   <p><b>Telephony: </b>{{telephony ? telephony.minutes : "none"}} \ <b> Precio: </b> {{ telephony ? telephony.price : 0}}$  </p>
-   <p><b>Cable: </b>{{cable ? cable.plan.Name : "none"}}  \ <b> Precio: </b> {{ cable ? cable.price : 0}}$ </p>
-   <p><b>Discount: </b>{{package.discount}}% </p>
-   <p><b>Total: </b> {{  ((internet ? internet.price : 0) + (telephony ? telephony : 0) + (cable ? cable.price : 0)) - ((internet ? internet.price : 0) + (telephony ? telephony.price : 0) + (cable ? cable.price : 0))*(1/package.discount) }}$</p> 
-</div>
+	<div class="services-wrapper">
+		<h1>Services</h1>
+		<div class="services-section">
+			<section>
+				<h4>Packages:</h4>
+				<table class="tbl-content">
+					<tr class="tbl-header">
+						<th>Nombre</th>
+						<th>Valor</th>
+						<th>Total</th>
+					</tr>
+					<tr>
+						<th class="tbl-header">Internet</th>
+						<th>{{internet ? internet.speed : "none"}}</th>
+						<th>{{ internet ? internet.price : 0}}$</th>
+					</tr>
+					<tr>
+						<th class="tbl-header">Telephony</th>
+						<th>{{telephony ? telephony.minutes : "none"}}</th>
+						<th>{{ telephony ? telephony.price : 0}}$</th>
+					</tr>
+					<tr>
+						<th class="tbl-header">Cable</th>
+						<th>{{cable ? cable.plan.Name : "none"}}</th>
+						<th>{{ cable ? cable.price : 0}}$</th>
+					</tr>
+					<tr>
+						<th class="tbl-header">Discount</th>
+						<th colspan="2">{{package.discount}}%</th>
+
+					</tr>
+					<tr>
+						<th class="tbl-header">Total</th>
+						<td colspan="2">{{  ((internet ? internet.price : 0) + (telephony ? telephony.price : 0) + (cable ? cable.price : 0)) - ((internet ? internet.price : 0) + (telephony ? telephony.price : 0) + (cable ? cable.price : 0))*(1/package.discount) }}$</td>
+					</tr>
+				</table>
+			</section>
+            <a href="{{url('home')}}"><button>Volver</button></a>
+		</div>
+	</div>
 {% endblock %}

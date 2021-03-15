@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Guide
+{% endblock %}
+
+{% block body %}
+	<link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
+	<style>
+		.section {
+			overflow-x: scroll;
+		}
+		th {
+			width: 100px;
+			text-align: center;
+		}
+		.th {
+			text-align: start;
+		}
+		.td {
+			background-color: rgba(255, 255, 255, 0.1);
+		}
+		.search {
+			display: grid;
+			grid-template-columns: 100px auto 80px;
+            gap: 2px;1
+			position: relative;
+			height: 30px;
+            margin: 0 10px
+		}
+        .search input{
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border: 0;
+        }
+        .search h4, .search button{
+            margin: 0;
+        }
+		#form_Type label{
+            text-align: left;
+        }
+	</style>
+	<div class="services-wrapper">
+		<h1>Guide</h1>
+		<div class="services-section">
+				{# <div class="search"> #}
+					{# <h4>Channels:</h4>
+					<input></input>
+                    <a href="{{url('guide')&channel=}}"><button>Buscar Canal</button></a>
+                    <a href="{{url('guide')}}"><button>Buscar Programa</button></a> #}
+                    {{ form(ServicesForm) }}
+			{# </div> #}
+			<section class="section">
+			<table class="tbl-content">
+				<tr class="tbl-header">
+					<th rowspan="2">Channel</th>
+					{% for item in weekDay %}
+						{% for item in hours %}
+							<th>{{item}}</th>
+						{% endfor %}
+					{% endfor %}
+				</tr>
+				<tr class="tbl-header">
+					{% for item in weekDay %}
+						<th class="th" colspan="24">{{item}}</th>
+					{% endfor %}
+
+				</tr>
+				{% for item in channel %}
+					<tr>
+						<td class="td">{{item.Name}}</td>
+						{% for day in weekDay %}
+							{% for hour in hours %}
+								<td class="td">
+									{% for programation in item.Programs %}
+										<p>
+											{% for week in programation.WeekDay %}
+												{% if day == week and programation.Hour.format('H:i') == hour%}
+													{{programation.Name}}
+												{% endif %}
+											{% endfor %}
+										</p>
+									{% endfor %}
+								</td>
+							{% endfor %}
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+		{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{url('admin_services')}}"><button>Volver</button></a>
+		{% else %}
+		<a href="{{url('home')}}"><button>Volver</button></a>
+		{% endif %}
+	</div>
+</div>{% endblock %}

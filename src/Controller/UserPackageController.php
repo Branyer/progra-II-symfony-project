@@ -33,12 +33,12 @@ class UserPackageController extends AbstractController
             $cable = $repositoryCable->find($package->getCable()->getId());
         }
 
-         $telephony = null;
+         $telephony = array();
         if($package->getTelephony()){
             $repositoryTelephony = $this->getDoctrine()->getRepository(Telephony::class);
             $telephony = $repositoryTelephony->find($package->getTelephony()->getId());
         }
-
+        // print_r($telephony[0]);
 
         return $this->render('user_package/index.html.twig', [
             'package' => $package,

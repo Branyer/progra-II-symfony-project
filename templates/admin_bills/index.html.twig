@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bills{% endblock %}
+{% block title %}My Package{% endblock %}
 
 {% block body %}
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; color:white;}
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     .bill {
         border: 2px solid black;
@@ -14,23 +14,39 @@
         justify-content:center;
         align-items:center
     }
-
-
-
 </style>
+	<link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
 
-<div class="example-wrapper">
-    {% for bill in bills %}
-        <div class="bill">
-            <p><b>User: </b>{{bill.user.email}}</b>
-            <p><b>Package: </b>{{bill.package.Name}}</b>
-            <p><b>Internet: </b>{{bill.package.internet ? bill.package.internet.speed : "none"}}  \ <b> Precio: </b> {{ bill.package.internet ? bill.package.internet.price : 0}}$ </p>
-            <p><b>Telephony: </b>{{bill.package.telephony ? bill.package.telephony.minutes : "none"}} \ <b> Precio: </b> {{ bill.package.telephony? bill.package.telephony.price : 0}}$  </p>
-            <p><b>Cable: </b>{{bill.package.cable ? bill.package.cable.plan.Name : "none"}}  \ <b> Precio: </b> {{ bill.package.cable ? bill.package.cable.price : 0}}$ </p>
-            <p><b>Discount: </b>{{bill.package.discount}}% </p>
-            <p><b>Total: </b> {{  ((bill.package.internet ? bill.package.internet.price : 0) + (bill.package.telephony ? bill.package.telephony.price : 0) + (bill.package.cable ? bill.package.cable.price : 0)) - ((bill.package.internet ? bill.package.internet.price : 0) + (bill.package.telephony ? bill.package.telephony.price : 0) + (bill.package.cable ? bill.package.cable.price : 0))*(1/bill.package.discount) }}$</p> 
-        </div>
-
-    {% endfor %}
-</div>
+	<div class="services-wrapper">
+		<h1>Services</h1>
+		<div class="services-section">
+			<section>
+				<h4>Packages:</h4>
+				<table class="tbl-content">
+					<tr class="tbl-header">
+						<th>User</th>
+						<th>Package</th>
+						<th>Internet</th>
+						<th>Telephony</th>
+						<th>Cable</th>
+						<th>Discount</th>
+						<th>Total</th>
+					</tr>
+						{% for bill in bills %}
+					<tr>
+                            <td>{{bill.user.email}}</td>
+                            <td>{{bill.package.Name}}</td>
+                            <td>{{bill.package.internet ? bill.package.internet.speed : "none"}}   Precio:  {{ bill.package.internet ? bill.package.internet.price : 0}}$</td>
+                            <td>{{bill.package.telephony ? bill.package.telephony.minutes : "none"}} Precio: {{ bill.package.telephony? bill.package.telephony.price : 0}}$</td>
+                            <td>{{bill.package.cable ? bill.package.cable.plan.Name : "none"}}   Precio:  {{ bill.package.cable ? bill.package.cable.price : 0}}$ </td>
+                            <td>{{bill.package.discount}}%</td>
+                            <td>{{((bill.package.internet ? bill.package.internet.price : 0) + (bill.package.telephony ? bill.package.telephony.price : 0) + (bill.package.cable ? bill.package.cable.price : 0)) - ((bill.package.internet ? bill.package.internet.price : 0) + (bill.package.telephony ? bill.package.telephony.price : 0) + (bill.package.cable ? bill.package.cable.price : 0))*(1/bill.package.discount) }}$</td>
+					
+                            </tr>
+                        {% endfor %}
+				</table>
+			</section>
+            <a href="{{url('home')}}"><button>Volver</button></a>
+		</div>
+	</div>
 {% endblock %}

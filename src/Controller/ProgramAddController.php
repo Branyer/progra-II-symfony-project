@@ -30,7 +30,10 @@ class ProgramAddController extends AbstractController
         $form = $this->createFormBuilder($program, array('allow_extra_fields' => true))
             // ->add('name', TextType::class)
             ->add('name', TextType::class)
-            ->add('hour', TimeType::class)
+            ->add('hour', TimeType::class,
+                [
+                    'minutes'=>[0,30]]
+            )
 
             ->add('WeekDay', ChoiceType::class, [
                 'placeholder' => 'Choose an option',
