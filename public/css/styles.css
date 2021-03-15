@@ -31,7 +31,11 @@ table {
   grid-template-columns: auto auto;
   height: 100%;
 }
-
+.example-wrapper{
+  align-items: center;
+    display: flex;
+    flex-direction: column;
+}
 .tbl-buttonPanel-button, button{
   display: flex;
   justify-content: center;
@@ -42,11 +46,13 @@ table {
   text-align: center;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  margin: 5px;
+  margin: 5px 0;
   color: white;
 }
 button{
   cursor: pointer;
+  width: 100%;
+  height: 30px;
 }
 button:hover{
   background-color: rgba(255, 255, 255, 0.349);
@@ -263,6 +269,4 @@ input{
 }
 #form_save{
   position: absolute;
-  width: 100%;
-  height: 30px;
 }
