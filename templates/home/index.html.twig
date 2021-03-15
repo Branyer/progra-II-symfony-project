@@ -54,12 +54,12 @@
 			{% else %}
 				<p>Welcome User</p>
 					<a href="{{url('user_guide')}}">Channel Catalog</a>
-				{%if app.user.package == null %}
+				{% if app.user.package == null %}
 					<a href="{{ path('user_add_packages', {'id': app.user.id}) }}">Add Package</a>
 				{% else %}
 					<a href="{{path('user_change_package', {'id': app.user.id})}}">Change Package</a>
 					<a href="{{path('user_package', {'id': app.user.package.id})}}">My Package</a>
-				{%endif%}
+				{% endif %}
 
 			{% endif %}
 			<a href="{{url('app_logout')}}">Logout</a>
