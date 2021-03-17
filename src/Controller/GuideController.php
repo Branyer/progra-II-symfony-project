@@ -18,7 +18,7 @@ class GuideController extends AbstractController
 
 
     /**
-     * @Route("/admin/services/guide", name="guide")
+     * @Route("/user/guide", name="guide")
      */
     public function adminService(EntityManagerInterface $em, Request $request): Response
     {
